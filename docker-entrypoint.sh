@@ -10,9 +10,12 @@ WEBROOT=/tmp/webroot
 mkdir -p $WEBROOT/.well-known/acme-challenge $LE_DIR/failed
 
 function get_domains() {
-  docker stack ls --format "{{.Name}}" \
-    | xargs -ISTACK docker stack services STACK --format "{{.Name}}" \
-    | xargs -ISERVICE docker service inspect SERVICE --format '{{ index .Spec.Labels "certbot.domain"}}' \
+  local sock=/var/run/docker.sock
+  local url=http://v1.45/services 
+
+  curl -s --unix-socket $sock $url \
+    | jq -r '.[] | select(.Spec.Labels["com.docker.stack.namespace"] != null) | .Spec.Name' \
+    | xargs -I {} sh -c "curl -s --unix-socket $sock $url/{} | jq -r '.Spec.Labels[\"certbot.domain\"] | select(.)'" \
     | grep \. | sed 's/,/\n/g'
 }
 

@@ -1,6 +1,6 @@
 FROM certbot/certbot
 
-RUN apk update --no-cache && apk add bash docker curl
+RUN apk update --no-cache && apk add bash curl jq
 
 WORKDIR /app
 
