@@ -39,7 +39,7 @@ services:
       labels:
         - "traefik.enable=true"
         - "traefik.docker.network=web"
-        - "traefik.http.middlewares.auth.basicauth.users=admin:REPLACE-ME-USE_htpassedgenerated-by-htpasswd--nb"
+        - "traefik.http.middlewares.auth.basicauth.users=admin:REPLACE-ME-USE_htpasswd--nb"
         - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
         - "traefik.http.routers.dashboard.entrypoints=websecure"
         - "traefik.http.routers.dashboard.middlewares=auth"
