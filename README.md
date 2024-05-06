@@ -23,7 +23,7 @@ version: '3.8'
 services:
 
   traefik:
-    image: traefik:v2.11
+    image: traefik:v3.0
     networks:
       - web
     ports:
@@ -54,9 +54,8 @@ services:
     command:
       - "--log.level=DEBUG"
       - "--api.dashboard=true"
-      - "--providers.docker=true"
-      - "--providers.docker.swarmMode=true"
-      - "--providers.docker.exposedByDefault=false"
+      - "--providers.swarm.endpoint=unix:///var/run/docker.sock"
+      - "--providers.swarm.exposedByDefault=false"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
       - "--entrypoints.websecure.http.tls=true"
