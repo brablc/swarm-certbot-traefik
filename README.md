@@ -47,7 +47,7 @@ services:
         - "traefik.http.routers.dashboard.service=api@internal"
         - "traefik.http.routers.http-catchall.entrypoints=web"
         - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
-        - "traefik.http.routers.http-catchall.rule=HostRegexp(`{any:.+}`)"
+        - "traefik.http.routers.http-catchall.rule=HostRegexp(`.*`)"
         - "traefik.http.routers.http-catchall.priority=1000"
         - "traefik.http.services.dashboard.loadbalancer.server.port=8080"
         - "certbot.domain=traefik.example.com"
