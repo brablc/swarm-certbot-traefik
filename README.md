@@ -29,6 +29,7 @@ services:
 
   traefik:
     image: traefik:v3.0
+    tty: true
     networks:
       - web
     ports:
@@ -74,6 +75,7 @@ services:
 
   certbot:
     image: brablc/swarm-certbot-traefik
+    tty: true
     networks:
       - web
     deploy:
