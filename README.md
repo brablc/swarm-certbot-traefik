@@ -2,7 +2,7 @@
 
 [Traefik Proxy](https://doc.traefik.io/traefik/v2.11/) community edition does not really support Let's Encrypt in a serious way for **docker swarm**. If you have multiple instances of traefik with [letsencrypt](https://doc.traefik.io/traefik/https/acme/) support enabled, they would all start to generate same certificates, overwriting `acme.json` storage and exhausting the limits very quickly if things go wrong.
 
-This project handles certificates using separate service (here called `certbot`), which exports file with certificates in format expected by `traefik`.  It uses auto-discovery by searching for `certbot.domain` labels. Please check following examples, which show both `traefik` and `certbot` labels:
+This project handles certificates using separate service (in provided stack Yaml files called `certbot`), which exports file with certificates in format expected by `traefik`.  It uses auto-discovery by searching for `certbot.domain` labels. Please check following examples which shows both `traefik` and `certbot` labels:
 
 ```yml
     vector:
@@ -21,7 +21,8 @@ This project handles certificates using separate service (here called `certbot`)
 
 ## Example stacks
 
-This project shows two examples of docker swarm stacks:
+Two example docker swarm stacks are provided:
+
 - [manager_single_stack.yml](examples/manager_single_stack.yml) - for single traefik instance,
 - [manager_multiple_stack.yml](examples/manager_multiple_stack.yml) - with two main traefik instances (to support rolling update) running on the same host, in this case there is an `edge` traefic instance added which acts as a TCP proxy, in this setup, it is expected, that there is only one public IP without load balancing. 
 
@@ -58,7 +59,6 @@ When using provided stacks please change following:
 
 > [!IMPORTANT]
 > - When certbot fails to generate certificate it would store log into `/etc/letsencrypt/failed/$DOMAIN` - you have to delete it to get another attempt.
-> - The setup expects that multiple copies of traefik run on the same node (manager) to handle rolling update of traefik service.
 
 ## Credits
 
