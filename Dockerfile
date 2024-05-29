@@ -4,7 +4,7 @@ RUN apk update --no-cache && apk add bash curl jq
 
 WORKDIR /app
 
-COPY docker-entrypoint.sh .
-RUN chmod +x docker-entrypoint.sh
+COPY *.sh ./
+RUN chmod +x *.sh
 
 ENTRYPOINT ["./docker-entrypoint.sh"]
