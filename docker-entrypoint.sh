@@ -9,7 +9,7 @@ log_info "Using email: $CERTBOT_EMAIL"
 log_info "Initial list of domains from certbot.domain labels ..."
 ./domains.sh
 
-LAST_DATE=x$(date +"%Y-%m-%d")
+LAST_DATE=$(date +"%Y-%m-%d")
 
 log_info "Entering loop with $LOOP_SLEEP sleep ..."
 while true; do

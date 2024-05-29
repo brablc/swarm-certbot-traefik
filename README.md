@@ -12,7 +12,10 @@ The provided example of `manager-stack.yml` provides following functionality:
 - Dynamic loading of generated certificates - Treafik actually requires TLS to be in a dynamically loaded file.
 - Challenge webroot gets automatically routed by traefik, but only gets opened when needed.
 - Automatic discovery of domains, that require cerificate - use `certbot.domain` label - you can separate multiple domains with commas.
-- Renewal is performed once in a day, when date change is detected. You can force from outside using `docker exec CERTBOT_ID ./renew.sh`
+- Renewal is performed once in a day, when date change is detected. You can force from outside using:
+```sh
+SERVICE_NAME=manager_certbot; docker exec --tty $(docker ps --format json | jq -r 'select(.Names | startswith("'$SERVICE_NAME'")) | .ID') ./renew.sh
+```
 
 > [!IMPORTANT]
 > - When certbot fails to generate certificate it would store log into `/etc/letsencrypt/failed/$DOMAIN` - you have to delete it to get another attempt.

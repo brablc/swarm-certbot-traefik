@@ -14,7 +14,6 @@ log_info "Starting http server ..."
 python -m http.server 80 --directory $WEBROOT &
 trap "kill $!" exit
 sleep 5
-log_info "Started."
 
 FILE="$ACME_PATH/check-renew-$(date +%s)"
 TEST_URL="http://$DOMAIN/$FILE"
@@ -39,7 +38,7 @@ log_info "Calling certbot renew ..."
 } 200>$LOCK_FILE
 
 if (( $CERTBOT_RESULT == 0 )); then
-    log_info "Cerbot ok"
+    log_info "Cerbot ok."
     ./export.sh
 else
     log_error"Cerbot failed."
