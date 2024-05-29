@@ -1,0 +1,16 @@
+accessLog:
+  format: json
+
+entryPoints:
+  tcp:
+    address: ":80"
+    proxyProtocol:
+      insecure: true
+  tcpsecure:
+    address: ":443"
+    proxyProtocol:
+      insecure: true
+
+providers:
+  file:
+    filename: "/etc/traefik/traefik_tcp.yml"

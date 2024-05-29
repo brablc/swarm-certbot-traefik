@@ -1,0 +1,28 @@
+tcp:
+  routers:
+    edge-router:
+      entryPoints:
+        - tcp
+      rule: "HostSNI(`*`)"
+      service: "traefik-http-service"
+    edge-router-secure:
+      entryPoints:
+        - tcpsecure
+      rule: "HostSNI(`*`)"
+      service: "traefik-https-service"
+      tls:
+        passthrough: true
+
+  services:
+    traefik-http-service:
+      loadBalancer:
+        servers:
+          - address: "traefik:80"
+        proxyProtocol:
+          version: 2
+    traefik-https-service:
+      loadBalancer:
+        servers:
+          - address: "traefik:443"
+        proxyProtocol:
+          version: 2
