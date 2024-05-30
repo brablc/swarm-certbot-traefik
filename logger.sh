@@ -19,15 +19,19 @@ log() {
     esac
 
     reset=$'\e[39m'
-    timestamp=$(date +"%Y-%m-%d %H:%M:%S")
-
-    if [[ -t 1 || -n $CONTENT_TYPE ]]; then
-        echo -e "${color}-${level:0:1}|${timestamp}|${message}${reset}"
+    if [[ -n $LOGGER_USE_TS ]]; then
+        timestamp=$(date +"%Y-%m-%d %H:%M:%S|")
     else
-        echo "-${level:0:1}|${timestamp}|${message}"
+        timestamp=""
     fi
 
-    logger -t SCRIPT_NAME -p user.${level,,} "${timestamp} - ${level} - ${message}"
+    if [[ -t 1 || -n $CONTENT_TYPE ]]; then
+        echo -e "${color}-${level:0:1}|${timestamp}${message}${reset}"
+    else
+        echo "-${level:0:1}|${timestamp}${message}"
+    fi
+
+    logger -t $SCRIPT_NAME -p user.${level,,} "${level} - ${message}"
 }
 
 log_info() {
