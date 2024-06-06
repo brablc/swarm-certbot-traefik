@@ -31,7 +31,7 @@ while read DOMAIN; do
     ERR=$?
     rm -f $WEBROOT/$FILE
     if [ $ERR -ne 0 -o "$(cat /tmp/result)" != "certbot" ]; then
-        log_error"$DOMAIN|Domain challenge failed $TEST_URL"
+        log_error "$DOMAIN|Domain challenge failed $TEST_URL"
         continue
     fi
 
