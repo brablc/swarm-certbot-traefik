@@ -2,7 +2,7 @@
 
 [Traefik Proxy](https://doc.traefik.io/traefik/v2.11/) community edition does not really support Let's Encrypt in a serious way for **docker swarm**. If you have multiple instances of traefik with [letsencrypt](https://doc.traefik.io/traefik/https/acme/) support enabled, they would all start to generate same certificates, overwriting `acme.json` storage and exhausting the limits very quickly if things go wrong.
 
-This project handles certificates using separate service (in provided stack Yaml files called `certbot`), which exports file with certificates in format expected by `traefik`.  It uses auto-discovery by searching for `certbot.domain` labels. Please check following examples which shows both `traefik` and `certbot` labels:
+This project handles certificates using separate service (called `certbot` in provided stack YAML files), which exports file with certificates in format expected by `traefik`.  It uses auto-discovery by searching for `certbot.domain` labels. Please check following examples which shows both `traefik` and `certbot` labels:
 
 ```yml
     vector:
@@ -29,9 +29,9 @@ Two example docker swarm stacks are provided:
 ## Functionality
 
 - Traefik dashboard is protected by basic authentication.
-- Generic redirect from 80 to 433 is provided (with exception of ACME challenge).
+- Generic redirect from 80 to 443 is provided (with exception of ACME challenge request).
 - Dynamic loading of generated certificates - Treafik actually requires TLS to be in a dynamically loaded file.
-- Challenge requests get automatically routed by traefik - the server serving webroot directory is only started when needed.
+- Challenge requests get automatically routed by Traefik - the server serving webroot directory is only started when needed.
 - Renewal is performed once in a day, when date change is detected. You can force from outside using:
 ```sh
 SERVICE_NAME=manager_certbot; docker exec --tty $(docker ps --format json | jq -r 'select(.Names | startswith("'$SERVICE_NAME'")) | .ID') ./renew.sh
